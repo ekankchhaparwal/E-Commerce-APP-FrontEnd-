@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="css/orderSummary.css">
+    <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script> <!-- Replace with your Font Awesome kit ID -->
+</head>
+<body>
+    <header id="header"></header>
+
+    <main>
+        <center>
+            <div class="checkout-container">
+
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <ul id="summary-list">
+                        <!-- Dynamically load order items -->
+                    </ul>
+                    <p class="total-amount">Total Amount: <span id="order-total"></span> Rs.</p>
+                </div>
+    
+                <div class="shipping-info">
+                    <h2>Shipping Information</h2>
+                    <form id="shipping-form">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+    
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
+    
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+    
+                        <label for="zip">ZIP / Postal Code</label>
+                        <input type="text" id="zip" name="zip" required>
+   
+                        <button type="submit" onclick="orderConfirmation.html" id="confirm-order">Confirm Order</button>
+                    </form>
+                </div>
+            </div>
+        </center>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/data.js"></script>
+</body>
+
+<script>
+    $(document).ready(function() {
+    // Load header and footer
+    $("#header").load("header.html");
+    $("#footer").load("footer.html");
+
+    // Load order summary
+    loadOrderSummary();
+
+    // Handle form submission
+    $("#shipping-form").on("submit", function(e) {
+        e.preventDefault();
+        window.location.href = "orderConfirmation.html";
+    });
+});
+
+function loadOrderSummary() {
+    var totalAmount = 0;
+    var summaryList = $("#summary-list");
+
+    for (var productId in cart) {
+        if (cart.hasOwnProperty(productId)) {
+            var quantity = cart[productId];
+            var product = data[productId-1];
+            if (product) {
+                totalAmount += product.price * quantity*80;
+
+                var listItem = $("<li>").html(`
+                    <div class="cart-item">
+                        <h4>${product.title} (x${quantity})</h4>
+                        <p>${product.price.toFixed(2)} Rs. each</p>
+                    </div>
+                `);
+                summaryList.append(listItem);
+            }
+        }
+    }
+
+    $("#order-total").text(totalAmount.toFixed(2));
+}
+
+</script>
+</html>

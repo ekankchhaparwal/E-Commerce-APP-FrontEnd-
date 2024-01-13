@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript"
+        src="js/data.js">
+    </script>
+</head>
+<style>
+    .product {
+        margin: 5px;
+    }
+    #products-list .product {
+        
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.product img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.product .details {
+    display: flex;
+    flex-direction: column;
+}
+.product-id-cart {
+    display: flex;
+    align-items: center;
+}
+
+.add-to-cart-btn {
+    margin: 15px;
+    padding: 5px 10px;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.description{
+    margin: 15px;
+    padding: 5px 10px;
+    background-color: rgb(236, 236, 75); 
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.add-to-cart-btn:hover {
+    background-color: #45a049;
+}
+
+#filters {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f4f4f4;
+    margin-bottom: 20px;
+}
+
+#category-filter, #price-range-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.popup {
+        position: fixed;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 9999;
+        display: none;
+    }
+
+</style>
+<body>
+    <!-- Header -->
+    <div id="navbar"></div>
+
+    <section id="filters">
+    <!-- Category Filter -->
+    <div id="category-filter">
+        <label for="category-select">Choose a Category:</label>
+        <select id="category-select">
+            <option value="all">All Categories</option>
+            <option value="men's clothing">Men's Clothing</option>
+            <option value="women's clothing">Women's Clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewelery">Jewelery</option>
+        </select>
+    </div>
+
+    <!-- Price Range Filter -->
+    <div id="price-range-filter">
+        <label for="price-min">Min Price:</label>
+        <input type="number" id="price-min" placeholder="0">
+        <label for="price-max">Max Price:</label>
+        <input type="number" id="price-max" placeholder="1000">
+        <button id="price-filter-btn">Filter</button>
+    </div>
+</section>
+<div class="popup" id="popup">Product added to cart</div>
+    <!-- Products List -->
+    <section id="products-list">
+        <!-- Products will be loaded here -->
+    </section>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+</body>
+<script>
+    // script.js
+$(document).ready(function(){
+    $("#navbar").load("header.html");
+    $("#footer").load("footer.html");
+    $('.add-to-cart-btn').click(function() {
+        $('#popup').fadeIn(400, function() {
+            // Hide the pop-up after 2 seconds
+            setTimeout(function() {
+                $('#popup').fadeOut(400);
+            }, 2000);
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var products = data
+
+    products.forEach(function(product) {
+    var productHTML = `
+        <div class="product">
+            <img src="${product.image}" alt="${product.title}">
+            <div class="details">
+                <h3>${product.title}</h3>
+                <h5>Price: ${product.price*80 } Rs.</h5>
+                <p>Category: ${product.category}</p>
+                <div class="product-id-cart">
+                    <p>Product ID: ABC@${product.id}</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <button class="description">View Product Description</button>
+                </div>
+            </div>
+        </div>
+    `;
+    $("#products-list").append(productHTML);
+});
+
+});
+
+    $("#category-select").change(function() {
+        filterProducts();
+    });
+
+    $("#price-filter-btn").click(function() {
+        filterProducts();
+    });
+
+    function filterProducts() {
+        var selectedCategory = $("#category-select").val();
+        var minPrice = $("#price-min").val();
+        var maxPrice = $("#price-max").val();
+
+        var filteredProducts = data.filter(function(product) {
+            var categoryMatch = selectedCategory === "all" || product.category === selectedCategory;
+            var priceMatch = (!minPrice || product.price*80 >= minPrice) && (!maxPrice || product.price*80 <= maxPrice);
+            return categoryMatch && priceMatch;
+        });
+
+        displayProducts(filteredProducts);
+    }
+
+    function displayProducts(products) {
+    $("#products-list").empty();
+    products.forEach(function(product) {
+        var productHTML = `
+        <div class="product">
+            <img src="${product.image}" alt="${product.title}">
+            <div class="details">
+                <h3>${product.title}</h3>
+                <h5>Price: ${product.price * 80} Rs.</h5>
+                <p>Category: ${product.category}</p>
+                <div class="product-id-cart">
+                    <p>Product ID: ABC@${product.id}</p>
+                    <button class="add-to-cart-btn" data-product-id = "${product.id}" >Add to Cart</button>
+                    <button class="description" data-product-id="${product.id}">View Product Description</button>
+                </div>
+            </div>
+        </div>
+        `;
+        $("#products-list").append(productHTML);
+    });
+
+    // Add a click event handler for the "View Product Description" button
+    $(".description").click(function() {
+        // Get the product ID using jQuery data method
+        var productId = $(this).data("product-id");
+        selectedData = productId-1;
+        console.log(selectedData)
+        // Redirect to productDetails.html with the product ID as a query parameter
+        window.location.href = `productDetails.html?productId=${productId}`;
+    });
+
+    $(".add-to-cart-btn").click(function() {
+        var productId = $(this).data("product-id");
+        addToCart(productId,1);
+        console.log(cart);
+        console.log(cart);
+    });
+}
+
+    
+    // Initial display of products
+    displayProducts(data);
+
+</script>
+</html>

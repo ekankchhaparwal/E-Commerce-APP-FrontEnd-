@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/contact.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<script>
+    
+</script>
+<body>
+    
+    <header id="header-placeholder"></header>
+    <div class="contact-container">
+        <center><h1>Connect to Us </h1></center>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <p>Email: contact@speedmart.com</p>
+            <p>Phone: +123 456 7890</p>
+            <p>Address: 123 Business Rd, Business City, BC 12345</p>
+        </div>
+
+        <!-- Contact Form -->
+        <form id="contact-form">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <footer id="footer-placeholder"></footer>
+    
+    <script >
+        $("#header-placeholder").load("header.html");
+        $(document).ready(function() {
+            $("#contact-form").submit(function(event) {
+                let name = $("#name").val();
+                let email = $("#email").val();
+                let message = $("#message").val();
+                if(name === "" || email === "" || message === "") {
+                    alert("All fields are required.");
+                    event.preventDefault();
+                }
+            });
+
+            // Load footer
+            $("#footer-placeholder").load("footer.html");
+            
+        });
+
+    </script>
+</body>
+</html>

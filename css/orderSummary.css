@@ -1,0 +1,71 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.order-summary{
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+}
+.order-summary, .shipping-info {
+    background: #fff;
+    border: 1px solid black;
+    width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+h2 {
+    color: #333;
+}
+
+/* Form Styles */
+#shipping-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#shipping-form label {
+    margin-top: 10px;
+}
+
+#shipping-form input, #shipping-form select {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#confirm-order {
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor:
+    pointer;
+    transition: background-color 0.3s;
+    }
+    
+    #confirm-order:hover {
+    background-color: rgba(255, 183, 0, 0.794);
+    }
+    
+    /* Order Summary Styles */
+    #summary-list {
+    list-style: none;
+    padding: 10px;
+    margin: 10px;
+    }
+    
+    .total-amount {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    }
+    

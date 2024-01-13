@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> ORDER PLACED </title>
+    <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/orderConfirmation.css">
+</head>
+<body>  
+    <footer id="header-placeholder"></footer>
+
+    <div id="orderContainer">
+        <div id="check"><i class="fas fa-check-circle"></i></div>
+        
+        <div id="aboutCheck">
+            <h1> Order Placed Successfully! </h1>
+            <p>Order ID : 123ABC123ABCD</p>
+            <p> We've sent you an email with the Order details. </p>
+            <h3>Order Status : Out for Delivery!!</h3>
+        </div>
+    </div>
+    <footer id="footer-placeholder"></footer>
+</body>
+<script >
+    $("#header-placeholder").load("header.html");
+    $(document).ready(function() {
+        $("#footer-placeholder").load("footer.html");    
+    });
+
+</script>
+</html>

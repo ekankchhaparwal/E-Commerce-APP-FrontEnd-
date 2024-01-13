@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/home.css">
+    <script type="text/javascript"
+        src="js/data.js">
+    </script>
+    
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+
+    <div style="margin: 20px;"></div>
+    <section id="sliders">
+        <!-- Slider content goes here -->
+    </section>
+    <hr>
+    <h2 style="padding-left: 20px;margin-top: 10px;">Latest Products</h2>
+    <section id="latest-products">
+        <div class="product-grid">
+            <!-- Product cards will be inserted here -->
+        </div>
+    </section>
+    <hr>
+
+    <!-- Features -->
+    <div id="heading">FEATURES AND SERVICES</div>
+    <section id="features">
+        <div class="feature">
+            <i class="fas fa-shipping-fast"></i>
+            <p>Fast Shipping</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-star"></i>
+            <p>Quality Product</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-headset"></i>
+            <p>Best Service</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-thumbs-up"></i>
+            <p>Customer Satisfaction</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-tags"></i>
+            <p>Affordable Prices</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-recycle"></i>
+            <p>Eco Friendly</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-lock"></i>
+            <p>Secure Payment</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-gift"></i>
+            <p>Exclusive Offers</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-sync-alt"></i>
+            <p>Easy Returns</p>
+        </div>
+    </section>
+    
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</body>
+<script>
+    $(document).ready(function(){
+    $("#navbar").load("header.html");
+    $("#sliders").load("slider.html");
+    $("#footer").load("footer.html");
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    var products = [
+    data[0], data[5], data[3], data[11], data[17]
+    ];
+    console.log(data)
+    var productContainer = document.querySelector('.product-grid');
+
+    products.forEach(function(product) {
+        var productCard = `
+            <div class="product">
+                <img src="${product.image}" alt="${product.title}">
+                <h3>${product.title}</h3>
+                <h7>${product.category}</h7>
+            </div>
+        `;
+        productContainer.innerHTML += productCard;
+    });
+});
+</script>
+</html>

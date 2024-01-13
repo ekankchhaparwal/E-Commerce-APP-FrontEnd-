@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/data.js"></script>
+</head>
+<style>
+    /* Reset some default browser styles */
+    body, h1, h2, h3, p, ul, li, a, button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        font-family: inherit;
+    }
+
+    /* Set a universal background color and text color */
+    body {
+        background-color: #f0f0f0;
+        color: #333;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    p {
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* Links */
+    a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    a:hover {
+        color: #0056b3;
+    }
+
+    /* Buttons */
+    button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Product Details Layout */
+    .product-details-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+    }
+
+    .product-image {
+        max-width: 30%;
+        max-height: auto;
+    }
+
+    .product-details {
+        flex-grow: 1;
+        padding-left: 20px; /* Add some space between image and details */
+    }
+
+    /* Example responsive layout for smaller screens */
+    @media screen and (max-width: 768px) {
+        .product-details-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 80%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        .product-details {
+            flex-grow: 0;
+            padding-left: 0; /* Remove space between image and details on smaller screens */
+        }
+    }
+    .related-products-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .related-product-card {
+        max-width: calc(33.33% - 20px); /* Adjust the width based on your preference */
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 20px;
+        margin: 10px;
+        background-color: white;
+    }
+
+    .related-product-card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .related-product-card h2 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .related-product-card p {
+        font-size: 20px;
+        color: #777;
+    }
+    /* Pop-up Styles */
+    .popup {
+        position: fixed;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 9999;
+        display: none;
+    }
+
+</style>
+<body>
+    <div id="header"></div>
+
+    <div class="product-details-container">
+        <img class="product-image" id="product-image" src="" alt="Product Image">
+        <div class="product-details">
+            <h1 id="product-title"></h1>
+            <p id="product-description"></p>
+            <p id="product-price"></p>
+            <p id="product-rating"></p>
+            <button id="add-to-cart-button"> ADD TO CART </button>
+        </div>
+    </div>
+    <hr>
+    <h1 style="margin-left: 10px;">Related Products : </h1>
+    <div class="related-products-container">
+    </div>
+    <div class="popup" id="popup">Product added to cart</div>
+    <div id="footer"></div>
+
+    <script>
+        $(document).ready(function() {
+            // Load header.html using jQuery
+            $('#header').load('header.html');
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            // Extract the productId
+            const productId = urlParams.get('productId');
+            var productDetail = data[productId-1];
+
+            // Set product details on the page
+            $('#product-title').text(productDetail.title);
+            $('#product-description').text(productDetail.description);
+            $('#product-price').text('Price: ' + productDetail.price*80);
+            $('#product-rating').text('Rating: ' + productDetail.rating.rate + ' (Based on ' + productDetail.rating.count + ' ratings)');
+            $('#product-image').attr('src', productDetail.image);
+
+            var relatedProducts = data.filter(function(product) {
+                return product.category === productDetail.category && product.id !== productDetail.id;
+            });
+
+            // Generate HTML for related products and append it to the related products container
+            var relatedProductsContainer = $('.related-products-container');
+
+            relatedProducts.forEach(function(relatedProduct) {
+                var cardHtml = `
+                    <div class="related-product-card">
+                        <img src="${relatedProduct.image}" alt="${relatedProduct.title}">
+                        <h2>${relatedProduct.title}</h2>
+                        <p>Price: $${relatedProduct.price}</p>
+                    </div>
+                `;
+                relatedProductsContainer.append(cardHtml);
+            });
+
+            $('#footer').load('footer.html');
+
+            $('#add-to-cart-button').click(function() {
+            addToCart(productId,1);
+            console.log(cart);
+            $('#popup').fadeIn(400, function() {
+                setTimeout(function() {
+                    $('#popup').fadeOut(500);
+                }, 2000);
+            });
+    });
+        });
+    </script>
+</body>
+</html>

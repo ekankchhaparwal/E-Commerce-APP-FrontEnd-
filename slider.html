@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+    .slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slides img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.prev-arrow {
+    /* background-color: transparent; */
+    left: 10px;
+}
+
+.next-arrow {
+    /* background-color: transparent; */
+    right: 10px;
+}
+
+/* Additional styling can be added as needed */
+
+</style>
+<body>
+    <div class="slider">
+        <div class="slides">
+             <img src="img/img1.png" alt="image1"> 
+             <img src="img/img2.png" alt="image2"> 
+             <img src="img/img3.png" alt="image3"> 
+             <img src="img/img4.png" alt="image4"> 
+        </div>
+        <button class="slide-arrow prev-arrow">❮</button>
+        <button class="slide-arrow next-arrow">❯</button>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+    var slideIndex = 0;
+    var slideWidth = $('.slides img').outerWidth(true);
+    var totalSlides = $('.slides img').length;
+
+    $('.next-arrow').click(function() {
+        if (slideIndex < totalSlides - 1) {
+            slideIndex++;
+            $('.slides').css('transform', 'translateX(' + (-slideWidth * slideIndex) + 'px)');
+        }
+    });
+
+    $('.prev-arrow').click(function() {
+        if (slideIndex > 0) {
+            slideIndex--;
+            $('.slides').css('transform', 'translateX(' + (-slideWidth * slideIndex) + 'px)');
+        }
+    });
+});
+
+</script>
+</html>
